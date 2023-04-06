@@ -1,10 +1,9 @@
-import { SxProps, Theme, Alert, AlertColor, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
 import svgIconClasses from "@mui/material/SvgIcon/svgIconClasses";
 import { OptionsObject, useSnackbar } from "notistack";
 
 type useMuiSnackbarType = {
   autoHideDuration?: number;
-  sx?: SxProps<Theme>;
 };
 
 const SNACKBAR_BACKGROUND_COLORS: {
@@ -16,10 +15,7 @@ const SNACKBAR_BACKGROUND_COLORS: {
   error: "#f44336",
 };
 
-export const useMuiSnackbar = ({
-  autoHideDuration,
-  sx,
-}: useMuiSnackbarType) => {
+export const useMuiSnackbar = ({ autoHideDuration }: useMuiSnackbarType) => {
   const { enqueueSnackbar: enqueueNotistackSnackbar, closeSnackbar } =
     useSnackbar();
 
@@ -40,22 +36,19 @@ export const useMuiSnackbar = ({
           <Alert
             severity={severity}
             action={actionComponent}
-            sx={
-              // If the 'sx' style is set in the argument, it will be overwritten.
-              sx ?? {
-                minWidth: "480px",
-                minHeight: "96px",
-                alignItems: "center",
-                fontSize: 20,
+            sx={{
+              minWidth: "480px",
+              minHeight: "96px",
+              alignItems: "center",
+              fontSize: 20,
+              color: "#fff",
+              backgroundColor: SNACKBAR_BACKGROUND_COLORS[severity],
+              [`& .${svgIconClasses.root}`]: {
                 color: "#fff",
-                backgroundColor: SNACKBAR_BACKGROUND_COLORS[severity],
-                [`& .${svgIconClasses.root}`]: {
-                  color: "#fff",
-                  // Override the default height of the icon using 'Classes' because it causes the icon to be misaligned
-                  height: 1,
-                },
-              }
-            }
+                // Override the default height of the icon using 'Classes' because it causes the icon to be misaligned
+                height: 1,
+              },
+            }}
           >
             {message}
           </Alert>
